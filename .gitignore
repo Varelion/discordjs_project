@@ -1,0 +1,11 @@
+# Ignore .env file
+.env
+
+# Ignore eslintrc.json file
+eslintrc.json
+
+# Ignore the node_modules directory
+node_modules/
+
+# Ignore config.json
+config.json
