@@ -10,7 +10,6 @@ const fs = require('node:fs'); // provide functions for interacting with the Fil
 const path = require('node:path'); // provide utilities for working with file and directory paths; used for manipulating file paths.
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-
 //#endregion Importing Modules, Libraries, and Variables
 
 // When the client is ready, run this code (only once).
@@ -20,14 +19,14 @@ client.once(Events.ClientReady, readyClient => {
 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
 });
 
-client.commands = new Collection(); //Recommend attaching a `.commands` property to your client instance so that you can access your commands in other files.
+client.commands = new Collection(); //Recommend attaching a `.commands` property to your client instance so that you can access your commands in other files. The Collection class extends JavaScript's native Map class, and includes more extensive, useful functionality. Collection is used to store and efficiently retrieve commands for execution.
 
 
+// --------------------------
+//#region File parsing for commands
+// --------------------------
 const foldersPath = path.join(__dirname, 'commands'); //path.join() constructs a path to the commands directory
 const commandFolders = fs.readdirSync(foldersPath); // reads the path to the directory and returns an ARRAY of all the folder names it contains. So, ./commands/*
-
-
-
 
 for (const folder of commandFolders) {
 	const commandsPath = path.join(foldersPath, folder);
@@ -43,6 +42,35 @@ for (const folder of commandFolders) {
 		}
 	}
 }
+//#end_region File parsing for commands
+
+
+// --------------------------
+//#region Slash Commands Automatic Guild Registration
+// --------------------------
+
+// Construct and prepare an instance of the REST module
+const rest = new REST().setToken(token);
+
+// and deploy your commands!
+(async () => {
+	try {
+		console.log(`Started refreshing ${commands.length} application (/) commands.`);
+
+		// The put method is used to fully refresh all commands in the guild with the current set
+		const data = await rest.put(
+			Routes.applicationGuildCommands(clientId, guildId),
+			{ body: commands },
+		);
+
+		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+	} catch (error) {
+		// And of course, make sure you catch and log any errors!
+		console.error(error);
+	}
+})();
+
+//#end_region Slash Commands Automatic Guild Registration
 
 
 
@@ -50,7 +78,11 @@ for (const folder of commandFolders) {
 client.login(token);
 
 
+// --------------------------
+//#region Client Interaction Handling
+// --------------------------
 client.on(Events.InteractionCreate, async interaction => {
+	// console.log(Events)
 	if (!interaction.isChatInputCommand()) return;
 
 	const command = interaction.client.commands.get(interaction.commandName);
@@ -71,3 +103,4 @@ client.on(Events.InteractionCreate, async interaction => {
 		}
 	}
 });
+//#end_region Client Interaction Handling
