@@ -12,9 +12,8 @@ module.exports = {
 		.setDescription('Replies with Pong!'),
 	async execute(interaction) {
 		await interaction.reply('Pong!'); // You have three seconds to establish the first reply
-		const ping = interaction.client.ws;
 		const botLatency = Date.now() - interaction.createdTimestamp;
-		await interaction.editReply(`Pong again!\nBot latency: ${botLatency}ms`);
+		await interaction.editReply(`Pong again!!!!\nBot latency: ${botLatency}ms`);
 	},
 };
 
