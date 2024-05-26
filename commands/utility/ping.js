@@ -6,6 +6,7 @@ const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
 	cooldown: 5, // cooldown of five
+	category: 'utility', // can be used to place in different directories, for reload.js,
 	data: new SlashCommandBuilder()
 		.setName('ping')
 		.setDescription('Replies with Pong!'),
