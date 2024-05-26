@@ -22,6 +22,9 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.commands = new Collection(); //Recommend attaching a `.commands` property to your client instance so that you can access your commands in other files. The Collection class extends JavaScript's native Map class, and includes more extensive, useful functionality. Collection is used to store and efficiently retrieve commands for execution.
 
+client.cooldowns = new Collection(); // ammasses a collection of all command cooldowns
+// The key will be the command names, and the values will be Collections associating the user's id (key) to the last time (value) this user used this command. Overall the logical path to get a user's last usage of a command will be cooldowns > command > user > timestamp.
+
 // --------------------------
 //#region Slash Commands Automatic Guild Registration
 // --------------------------
