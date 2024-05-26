@@ -30,7 +30,7 @@ module.exports = {
 		// If you combine multiple permissions using the bitwise OR operator, it requires all of those permissions to be present in the bitfield, not any of them.
 
 		// This concept of bitwise operations and bitfields is common in low- level programming and is often used to efficiently store and manipulate flags or collections of boolean values.
-		.setDMPermission(false),
+		.setDMPermission(false), // doesn't allow this to be executed in DMs
 	async execute(interaction) {
 		// Retrieve options from the interaction
 		const targetOption = interaction.options.get('target');

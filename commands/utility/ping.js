@@ -9,10 +9,11 @@ module.exports = {
 	category: 'utility', // can be used to place in different directories, for reload.js,
 	data: new SlashCommandBuilder()
 		.setName('ping')
-		.setDescription('Replies with Pong!'),
+		.setDescription('Replies with Pong!')
+		.setDMPermission(true),
 	async execute(interaction) {
-		await interaction.reply('Pong!'); // You have three seconds to establish the first reply
 		const botLatency = Date.now() - interaction.createdTimestamp;
+		await interaction.reply('Pong!'); // You have three seconds to establish the first reply
 		await interaction.editReply(`Pong again!!!!\nBot latency: ${botLatency}ms`);
 	},
 };
