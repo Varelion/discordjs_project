@@ -20,38 +20,13 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 // The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
 // It makes some properties non-nullable.
 
-client.commands = new Collection(); //Recommend attaching a `.commands` property to your client instance so that you can access your commands in other files. The Collection class extends JavaScript's native Map class, and includes more extensive, useful functionality. Collection is used to store and efficiently retrieve commands for execution.
 
 client.cooldowns = new Collection(); // ammasses a collection of all command cooldowns
 // The key will be the command names, and the values will be Collections associating the user's id (key) to the last time (value) this user used this command. Overall the logical path to get a user's last usage of a command will be cooldowns > command > user > timestamp.
 
-// --------------------------
-//#region Slash Commands Automatic Guild Registration
-// --------------------------
+client.commands = new Collection(); //Recommend attaching a `.commands` property to your client instance so that you can access your commands in other files. The Collection class extends JavaScript's native Map class, and includes more extensive, useful functionality. Collection is used to store and efficiently retrieve commands for execution.
 
-// Construct and prepare an instance of the REST module
-const rest = new REST().setToken(token);
 
-// and deploy your commands!
-(async () => {
-	try {
-		console.log(`Started refreshing ${commands.length} application (/) commands.`);
-
-		// The put method is used to fully refresh all commands in the guild with the current set
-		const data = await rest.put(
-			// Routes.applicationGuildCommands(clientId, guildId), This line would make it execute in one specific guild
-			Routes.applicationCommands(clientId), // this lines makes it execute in all guilds
-			{ body: commands },
-		);
-
-		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
-	} catch (error) {
-		// And of course, make sure you catch and log any errors!
-		console.error(error);
-	}
-})();
-
-//#end_region Slash Commands Automatic Guild Registration
 
 
 
